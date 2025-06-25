@@ -1,0 +1,35 @@
+name: test-api
+
+on: [push]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout del Código
+              uses: actions/checkout@v4
+
+            - name: Configurar Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.10.8'
+
+            - name: Instalar Dependencias
+              run: pip install -r requirements.txt
+              working-directory: ./
+
+            - name: Levantar la API
+              run: |
+                cd app/
+                setsid python clase_web.py > ../api.log 2>&1 &
+                echo "API iniciada correctamente en segundo plano."
+              working-directory: ./
+
+            - name: Ejecutar Pruebas
+              run: pytest -v tests/clase_web_test.py
+              working-directory: ./
+
+            - name: Mostrar Log de la API
+              if: always()
+              run: cat api.log
+              working-directory: ./
