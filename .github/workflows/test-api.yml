@@ -18,12 +18,12 @@ jobs:
               run: pip install -r requirements.txt
               working-directory: ./
 
-            - name: Levantar la API
-              run: |
-                cd app/
-                setsid python clase_web.py > ../api.log 2>&1 &
-                echo "API iniciada correctamente en segundo plano."
-              working-directory: ./
+            # - name: Levantar la API
+            #   run: |
+            #     cd app/
+            #     setsid python clase_web.py > ../api.log 2>&1 &
+            #     echo "API iniciada correctamente en segundo plano."
+            #   working-directory: ./
 
             - name: Ejecutar Pruebas
               run: pytest -v tests/clase_web_test.py
